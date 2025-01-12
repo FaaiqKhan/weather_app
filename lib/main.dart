@@ -55,10 +55,7 @@ class MyHomePage extends StatelessWidget {
                 );
               }
               if (state is HomeScreenLoadedState) {
-                return HomeScreen(
-                  unit: state.unit,
-                  weather: state.weatherData.current,
-                );
+                return HomeScreen();
               }
               return const Center(
                 child: CircularProgressIndicator(),

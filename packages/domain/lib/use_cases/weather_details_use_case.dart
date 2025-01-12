@@ -18,6 +18,25 @@ class WeatherDetailsUseCase {
       lat: lat,
       lon: lon,
     );
-    return forecastData.toWeatherData();
+
+    final weatherData = forecastData.toWeatherData();
+
+    final List<Weather> sortedForecast = [];
+    sortedForecast.add(weatherData.current);
+
+    DateTime dateTime = weatherData.current.dateTime;
+
+    for (var forecast in weatherData.forecast) {
+      final forecastDateTime = forecast.dateTime;
+      if (forecastDateTime.day == dateTime.day &&
+          forecastDateTime.month == dateTime.month &&
+          forecastDateTime.year == dateTime.year) {
+        continue;
+      }
+      sortedForecast.add(forecast);
+      dateTime = forecastDateTime;
+    }
+
+    return weatherData.copyWith(forecast: sortedForecast);
   }
 }
