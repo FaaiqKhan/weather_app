@@ -13,7 +13,7 @@ extension ForecastDataExtension on datasource.ForecastData {
         sunset: city?.sunset ?? 2,
       ),
       current: list!.first.toWeather(),
-      forecast: [],
+      forecast: list!.map((e) => e.toWeather()).toList(),
     );
   }
 }
