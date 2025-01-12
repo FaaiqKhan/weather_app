@@ -1,16 +1,17 @@
 class Weather {
   final int id;
   final String icon;
-  final double tempInFahrenheit;
-  final double tempInCelsius;
-  final double tempMinInFahrenheit;
-  final double tempMinInCelsius;
-  final double tempMaxInFahrenheit;
-  final double tempMaxInCelsius;
+  final String tempInFahrenheit;
+  final String tempInCelsius;
+  final String tempMinInFahrenheit;
+  final String tempMinInCelsius;
+  final String tempMaxInFahrenheit;
+  final String tempMaxInCelsius;
   final int pressure;
   final int humidity;
-  final double windSpeed;
+  final String windSpeed;
   final String description;
+  final DateTime dateTime;
 
   Weather({
     required this.id,
@@ -25,21 +26,23 @@ class Weather {
     required this.humidity,
     required this.windSpeed,
     required this.description,
+    required this.dateTime,
   });
 
   Weather copyWith({
     int? id,
     String? icon,
-    double? tempInFahrenheit,
-    double? tempInCelsius,
-    double? tempMinInFahrenheit,
-    double? tempMinInCelsius,
-    double? tempMaxInFahrenheit,
-    double? tempMaxInCelsius,
+    String? tempInFahrenheit,
+    String? tempInCelsius,
+    String? tempMinInFahrenheit,
+    String? tempMinInCelsius,
+    String? tempMaxInFahrenheit,
+    String? tempMaxInCelsius,
     int? pressure,
     int? humidity,
-    double? windSpeed,
+    String? windSpeed,
     String? description,
+    DateTime? dateTime,
   }) {
     return Weather(
       id: id ?? this.id,
@@ -54,6 +57,7 @@ class Weather {
       humidity: humidity ?? this.humidity,
       windSpeed: windSpeed ?? this.windSpeed,
       description: description ?? this.description,
+      dateTime: dateTime ?? this.dateTime,
     );
   }
 }
