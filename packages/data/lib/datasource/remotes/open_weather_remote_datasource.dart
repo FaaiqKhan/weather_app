@@ -35,7 +35,7 @@ class OpenWeatherRemoteDatasourceImpl implements OpenWeatherRemoteDatasource {
     try {
       const apiKey = String.fromEnvironment("open-weather-api-key");
       final response = await _dioClient.get(
-        "forecast?lat=$lat&lon=$lon&appid=$apiKey",
+        "forecast?lat=$lat&lon=$lon&units=imperial&appid=$apiKey",
       );
       if (response.statusCode == 200) {
         return ForecastData.fromJson(response.data);

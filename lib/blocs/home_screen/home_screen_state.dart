@@ -16,7 +16,7 @@ final class HomeScreenLoadingState extends HomeScreenState {
 
 final class HomeScreenLoadedState extends HomeScreenState {
   final WeatherData weatherData;
-  final TemperatureUnit? unit;
+  final TemperatureUnit unit;
 
   const HomeScreenLoadedState(
     this.weatherData, {

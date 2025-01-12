@@ -26,17 +26,21 @@ extension ForecastItemExtension on datasource.ForecastItem {
 
     return Weather(
       id: weather?.first.id ?? 0,
-      icon: weather?.first.icon ?? "",
-      tempInFahrenheit: tempInFahrenheit,
-      tempInCelsius: Utils.fahrenheitToCelsius(tempInFahrenheit),
-      tempMinInFahrenheit: weatherDetails?.tempMin ?? 32,
-      tempMinInCelsius: Utils.fahrenheitToCelsius(tempMinInFahrenheit),
-      tempMaxInFahrenheit: tempMaxInFahrenheit,
-      tempMaxInCelsius: Utils.fahrenheitToCelsius(tempMaxInFahrenheit),
+      icon: "https://openweathermap.org/img/wn/${weather?.first.icon}@2x.png",
+      tempInFahrenheit: tempInFahrenheit.toString(),
+      tempInCelsius:
+          Utils.fahrenheitToCelsius(tempInFahrenheit).toStringAsFixed(0),
+      tempMinInFahrenheit: (weatherDetails?.tempMin ?? 32).toString(),
+      tempMinInCelsius:
+          Utils.fahrenheitToCelsius(tempMinInFahrenheit).toStringAsFixed(0),
+      tempMaxInFahrenheit: tempMaxInFahrenheit.toString(),
+      tempMaxInCelsius:
+          Utils.fahrenheitToCelsius(tempMaxInFahrenheit).toStringAsFixed(0),
       pressure: weatherDetails?.pressure ?? 0,
       humidity: weatherDetails?.humidity ?? 0,
-      windSpeed: wind?.speed ?? 0.0,
+      windSpeed: (wind?.speed ?? 0.0).toString(),
       description: weather?.first.description ?? "",
+      dateTime: DateTime.fromMillisecondsSinceEpoch(dt! * 1000, isUtc: true),
     );
   }
 }
