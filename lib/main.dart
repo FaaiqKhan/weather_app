@@ -1,3 +1,5 @@
+import 'package:domain/domain.dart';
+import 'package:domain/repositories/open_weather_repository.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -26,6 +28,22 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(title);
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              WeatherDetailsUseCase(
+                OpenWeatherRepository(),
+              ).getWeatherDetails(
+                lat: 52.4633188,
+                lon: 13.3405259,
+              );
+            },
+            child: Text("Get weather details"),
+          ),
+        ),
+      ),
+    );
   }
 }
