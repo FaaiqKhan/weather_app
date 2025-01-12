@@ -1,8 +1,11 @@
 import 'package:domain/domain.dart';
 import 'package:domain/repositories/open_weather_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:weather_app/dependency_injection/dependency_injection.dart';
 
 void main() {
+  DependencyInjection.initDependencies();
   runApp(const MyApp());
 }
 
@@ -32,9 +35,9 @@ class MyHomePage extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: ElevatedButton(
-            onPressed: () {
-              WeatherDetailsUseCase(
-                OpenWeatherRepository(),
+            onPressed: () async {
+              await WeatherDetailsUseCase(
+                GetIt.I.get<OpenWeatherRepository>(),
               ).getWeatherDetails(
                 lat: 52.4633188,
                 lon: 13.3405259,
