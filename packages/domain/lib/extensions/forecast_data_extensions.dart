@@ -1,7 +1,7 @@
-import 'package:data/data.dart';
+import 'package:data/data.dart' as datasource;
 import 'package:domain/entities/entities.dart';
 
-extension _ on ForecastData {
+extension ForecastDataExtension on datasource.ForecastData {
   WeatherData toWeatherData() {
     return WeatherData(
       city: City(
@@ -11,18 +11,24 @@ extension _ on ForecastData {
         sunrise: city?.sunrise ?? 1,
         sunset: city?.sunset ?? 2,
       ),
-      current: Weather(
-        id: 1,
-        main: "",
-        icon: "",
-        temp: 1,
-        tempMin: 1,
-        tempMax: 1,
-        pressure: 1,
-        humidity: 1,
-        windSpeed: 1,
-      ),
+      current: list!.first.toWeather(),
       forecast: [],
+    );
+  }
+}
+
+extension ForecastItemExtension on datasource.ForecastItem {
+  Weather toWeather() {
+    return Weather(
+      id: weather?.first.id ?? 0,
+      icon: weather?.first.icon ?? "",
+      temp: weatherDetails?.temp ?? 0.0,
+      tempMin: weatherDetails?.tempMin ?? 0.0,
+      tempMax: weatherDetails?.tempMax ?? 0.0,
+      pressure: weatherDetails?.pressure ?? 0,
+      humidity: weatherDetails?.humidity ?? 0,
+      windSpeed: wind?.speed ?? 0.0,
+      description: weather?.first.description ?? "",
     );
   }
 }
