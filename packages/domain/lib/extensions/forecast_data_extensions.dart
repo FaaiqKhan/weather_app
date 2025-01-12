@@ -1,5 +1,6 @@
 import 'package:data/data.dart' as datasource;
 import 'package:domain/entities/entities.dart';
+import 'package:domain/utils/utils.dart';
 
 extension ForecastDataExtension on datasource.ForecastData {
   WeatherData toWeatherData() {
@@ -19,12 +20,19 @@ extension ForecastDataExtension on datasource.ForecastData {
 
 extension ForecastItemExtension on datasource.ForecastItem {
   Weather toWeather() {
+    final tempInFahrenheit = weatherDetails?.temp ?? 32;
+    final tempMinInFahrenheit = weatherDetails?.tempMin ?? 32;
+    final tempMaxInFahrenheit = weatherDetails?.tempMax ?? 32;
+
     return Weather(
       id: weather?.first.id ?? 0,
       icon: weather?.first.icon ?? "",
-      temp: weatherDetails?.temp ?? 0.0,
-      tempMin: weatherDetails?.tempMin ?? 0.0,
-      tempMax: weatherDetails?.tempMax ?? 0.0,
+      tempInFahrenheit: tempInFahrenheit,
+      tempInCelsius: Utils.fahrenheitToCelsius(tempInFahrenheit),
+      tempMinInFahrenheit: weatherDetails?.tempMin ?? 32,
+      tempMinInCelsius: Utils.fahrenheitToCelsius(tempMinInFahrenheit),
+      tempMaxInFahrenheit: tempMaxInFahrenheit,
+      tempMaxInCelsius: Utils.fahrenheitToCelsius(tempMaxInFahrenheit),
       pressure: weatherDetails?.pressure ?? 0,
       humidity: weatherDetails?.humidity ?? 0,
       windSpeed: wind?.speed ?? 0.0,

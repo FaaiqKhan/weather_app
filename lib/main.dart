@@ -1,7 +1,9 @@
 import 'package:domain/domain.dart';
 import 'package:domain/repositories/open_weather_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:weather_app/blocs/home_screen/home_screen_bloc.dart';
 import 'package:weather_app/dependency_injection/dependency_injection.dart';
 
 void main() {
@@ -31,19 +33,54 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: ElevatedButton(
-            onPressed: () async {
-              await WeatherDetailsUseCase(
-                GetIt.I.get<OpenWeatherRepository>(),
-              ).getWeatherDetails(
-                lat: 52.4633188,
-                lon: 13.3405259,
+    return BlocProvider(
+      create: (_) => HomeScreenBloc(
+        WeatherDetailsUseCase(
+          GetIt.I.get<OpenWeatherRepository>(),
+        ),
+      ),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor:
+              Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
+          title: Text(
+            "Weather App",
+            style: TextStyle(
+              fontSize: 24,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.settings,
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
+        body: SafeArea(
+          child: BlocBuilder<HomeScreenBloc, HomeScreenState>(
+            builder: (context, state) {
+              if (state is HomeScreenErrorState) {
+                return Center(
+                  child: ElevatedButton(
+                    onPressed: () async {},
+                    child: Text("Retry"),
+                  ),
+                );
+              }
+              if (state is HomeScreenLoadedState) {
+                return Center(
+                  child: Text("Ok"),
+                );
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
               );
             },
-            child: Text("Get weather details"),
           ),
         ),
       ),

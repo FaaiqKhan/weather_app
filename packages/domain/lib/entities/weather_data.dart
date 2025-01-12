@@ -10,4 +10,16 @@ class WeatherData {
     required this.current,
     required this.forecast,
   });
+
+  WeatherData copyWith({
+    City? city,
+    Weather? current,
+    List<Weather>? forecast,
+  }) {
+    return WeatherData(
+      city: city ?? this.city,
+      current: current ?? this.current,
+      forecast: forecast ?? this.forecast,
+    );
+  }
 }
