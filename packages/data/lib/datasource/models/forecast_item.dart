@@ -13,6 +13,7 @@ class ForecastItem {
   final Wind? wind;
   final int? visibility;
   final double? pop;
+  @JsonKey(name: "dt_txt")
   final String? dtTxt;
 
   ForecastItem({

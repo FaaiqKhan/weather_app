@@ -37,9 +37,9 @@ ForecastItem _$ForecastItemFromJson(Map<String, dynamic> json) =>
           visibility:
               $checkedConvert('visibility', (v) => (v as num?)?.toInt()),
           pop: $checkedConvert('pop', (v) => (v as num?)?.toDouble()),
-          dtTxt: $checkedConvert('dtTxt', (v) => v as String?),
+          dtTxt: $checkedConvert('dt_txt', (v) => v as String?),
         );
         return val;
       },
-      fieldKeyMap: const {'weatherDetails': 'main'},
+      fieldKeyMap: const {'weatherDetails': 'main', 'dtTxt': 'dt_txt'},
     );
