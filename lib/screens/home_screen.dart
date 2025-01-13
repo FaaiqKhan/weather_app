@@ -105,88 +105,85 @@ class HomeScreen extends StatelessWidget {
       builder: (context, state) {
         final castedState = state as HomeScreenLoadedState;
         final weather = castedState.weatherData.current;
-        return SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: 20),
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              children: [
-                showTitleWidget(castedState.weatherData.current),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          weather.description.toTitleCase,
+        return SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            children: [
+              showTitleWidget(castedState.weatherData.current),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        weather.description.toTitleCase,
+                        style: TextStyle(
+                          fontSize: 22,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      child: Image.network(
+                        weather.icon,
+                        fit: BoxFit.fitWidth,
+                        alignment: Alignment.center,
+                        loadingBuilder: (_, child, progress) {
+                          if (progress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                        errorBuilder: (_, __, ___) => Center(
+                          child: Text(
+                            "Image not found",
+                            style: TextStyle(
+                              fontSize: 22,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          getTemperatureInText(state.unit, weather),
                           style: TextStyle(
-                            fontSize: 22,
+                            fontSize: 38,
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        child: Image.network(
-                          weather.icon,
-                          fit: BoxFit.fitWidth,
-                          alignment: Alignment.center,
-                          loadingBuilder: (_, child, progress) {
-                            if (progress == null) return child;
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          },
-                          errorBuilder: (_, __, ___) => Center(
-                            child: Text(
-                              "Image not found",
-                              style: TextStyle(
-                                fontSize: 22,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                        Text(
+                          Utils.getTemperatureUnitInText(state.unit),
+                          style: TextStyle(
+                            fontSize: 28,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            getTemperatureInText(state.unit, weather),
-                            style: TextStyle(
-                              fontSize: 38,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            Utils.getTemperatureUnitInText(state.unit),
-                            style: TextStyle(
-                              fontSize: 28,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      showDetailsWidget(state.weatherData.current),
-                    ],
-                  ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    showDetailsWidget(weather),
+                  ],
                 ),
-                const SizedBox(height: 20),
-                showForecastWidget(
-                  castedState.weatherData.forecast,
-                  state.unit,
-                ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 20),
+              showForecastWidget(
+                castedState.weatherData.forecast,
+                state.unit,
+              ),
+            ],
           ),
         );
       },

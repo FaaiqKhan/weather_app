@@ -26,3 +26,8 @@ final class SelectForecastDay extends HomeScreenEvent {
   @override
   List<Object?> get props => [weather];
 }
+
+final class RefreshForecastData extends HomeScreenEvent {
+  @override
+  List<Object?> get props => [];
+}
