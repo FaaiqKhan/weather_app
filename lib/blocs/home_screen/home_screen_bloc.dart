@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:domain/domain.dart';
 import 'package:domain/entities/entities.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:weather_app/enums/enums.dart';
 
 part 'home_screen_event.dart';
@@ -12,9 +13,15 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
     on<SwitchTemperatureUnit>(_switchTemperatureUnit);
     on<GetForecastData>(_getForecastData);
     on<SelectForecastDay>(_selectForecastDay);
+    on<RefreshForecastData>(_refreshForecastData);
   }
 
   final WeatherDetailsUseCase _weatherDetailsUseCase;
+  final RefreshController _refreshController = RefreshController(
+    initialRefresh: false,
+  );
+
+  RefreshController get refreshController => _refreshController;
 
   void _switchTemperatureUnit(
     SwitchTemperatureUnit event,
@@ -69,6 +76,26 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
           ),
         ),
       );
+    }
+  }
+
+  void _refreshForecastData(
+    RefreshForecastData event,
+    Emitter<HomeScreenState> emit,
+  ) async {
+    try {
+      final weatherDetails = await _weatherDetailsUseCase.getWeatherDetails(
+        lat: 52.4633188,
+        lon: 13.3405259,
+      );
+      _refreshController.refreshCompleted();
+      emit(
+        HomeScreenLoadedState(
+          weatherDetails,
+        ),
+      );
+    } catch (_) {
+      _refreshController.refreshFailed();
     }
   }
 }
