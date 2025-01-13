@@ -75,18 +75,75 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget showForecastWidget(List<Weather> forecast, TemperatureUnit unit) {
+  Widget showForecastWidget(
+    BuildContext context,
+    List<Weather> forecast,
+    TemperatureUnit unit,
+  ) {
+    double width = MediaQuery.of(context).size.width * 0.4;
+    double height = MediaQuery.of(context).size.height * 0.18;
+    if (MediaQuery.of(context).orientation == Orientation.landscape) {
+      width = MediaQuery.of(context).size.width * 0.18;
+      height = MediaQuery.of(context).size.height * 0.4;
+    }
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: forecast
             .map(
-              (forecast) => BriefWeatherWidget(
-                unit: unit,
-                weather: forecast,
+              (forecast) => Container(
+                width: width,
+                height: height,
+                margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 2,
+                    color: Colors.black,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: BriefWeatherWidget(
+                  unit: unit,
+                  weather: forecast,
+                ),
               ),
             )
             .toList(growable: false),
+      ),
+    );
+  }
+
+  Widget showImageWidget(BuildContext context, Weather weather) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height * 0.3;
+    if (MediaQuery.of(context).orientation == Orientation.landscape) {
+      width = MediaQuery.of(context).size.height * 0.35;
+      height = MediaQuery.of(context).size.width * 0.15;
+    }
+    return SizedBox(
+      width: width,
+      height: height,
+      child: Image.network(
+        weather.icon,
+        fit: BoxFit.fitWidth,
+        alignment: Alignment.center,
+        loadingBuilder: (_, child, progress) {
+          if (progress == null) return child;
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+        errorBuilder: (_, __, ___) => Center(
+          child: Text(
+            "Image not found",
+            style: TextStyle(
+              fontSize: 22,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -105,86 +162,61 @@ class HomeScreen extends StatelessWidget {
       builder: (context, state) {
         final castedState = state as HomeScreenLoadedState;
         final weather = castedState.weatherData.current;
-        return SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            children: [
-              showTitleWidget(castedState.weatherData.current),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        weather.description.toTitleCase,
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            showTitleWidget(castedState.weatherData.current),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      weather.description.toTitleCase,
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  showImageWidget(context, weather),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        getTemperatureInText(state.unit, weather),
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 38,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.3,
-                      child: Image.network(
-                        weather.icon,
-                        fit: BoxFit.fitWidth,
-                        alignment: Alignment.center,
-                        loadingBuilder: (_, child, progress) {
-                          if (progress == null) return child;
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        },
-                        errorBuilder: (_, __, ___) => Center(
-                          child: Text(
-                            "Image not found",
-                            style: TextStyle(
-                              fontSize: 22,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                      Text(
+                        Utils.getTemperatureUnitInText(state.unit),
+                        style: TextStyle(
+                          fontSize: 28,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          getTemperatureInText(state.unit, weather),
-                          style: TextStyle(
-                            fontSize: 38,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          Utils.getTemperatureUnitInText(state.unit),
-                          style: TextStyle(
-                            fontSize: 28,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    showDetailsWidget(weather),
-                  ],
-                ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  showDetailsWidget(weather),
+                ],
               ),
-              const SizedBox(height: 20),
-              showForecastWidget(
-                castedState.weatherData.forecast,
-                state.unit,
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 20),
+            showForecastWidget(
+              context,
+              castedState.weatherData.forecast,
+              state.unit,
+            ),
+          ],
         );
       },
     );

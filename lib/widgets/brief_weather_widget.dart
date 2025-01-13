@@ -28,42 +28,29 @@ class BriefWeatherWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () =>
           context.read<HomeScreenBloc>().add(SelectForecastDay(weather)),
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.4,
-        height: MediaQuery.of(context).size.height * 0.18,
-        margin: const EdgeInsets.all(10),
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 2,
-            color: Colors.black,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(Utils.getAbbrOfDayOfTheWeek(weather.dateTime)),
+          SizedBox(
+            width: 100,
+            height: 100,
+            child: Image.network(
+              weather.icon,
+              loadingBuilder: (_, child, progress) {
+                if (progress == null) return child;
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
           ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(Utils.getAbbrOfDayOfTheWeek(weather.dateTime)),
-            SizedBox(
-              width: 100,
-              height: 100,
-              child: Image.network(
-                weather.icon,
-                loadingBuilder: (_, child, progress) {
-                  if (progress == null) return child;
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-              ),
-            ),
-            Visibility(
-              visible: unit == TemperatureUnit.celsius,
-              replacement: Text(temperatureInFahrenheit() + temperatureUnit()),
-              child: Text(temperatureInCelsius() + temperatureUnit()),
-            ),
-          ],
-        ),
+          Visibility(
+            visible: unit == TemperatureUnit.celsius,
+            replacement: Text(temperatureInFahrenheit() + temperatureUnit()),
+            child: Text(temperatureInCelsius() + temperatureUnit()),
+          ),
+        ],
       ),
     );
   }
