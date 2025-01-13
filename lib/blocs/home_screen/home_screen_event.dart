@@ -17,3 +17,12 @@ final class GetForecastData extends HomeScreenEvent {
   @override
   List<Object?> get props => [];
 }
+
+final class SelectForecastDay extends HomeScreenEvent {
+  final Weather weather;
+
+  const SelectForecastDay(this.weather);
+
+  @override
+  List<Object?> get props => [weather];
+}

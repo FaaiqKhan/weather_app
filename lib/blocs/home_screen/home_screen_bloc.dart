@@ -11,6 +11,7 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
   HomeScreenBloc(this._weatherDetailsUseCase) : super(HomeScreenInitial()) {
     on<SwitchTemperatureUnit>(_switchTemperatureUnit);
     on<GetForecastData>(_getForecastData);
+    on<SelectForecastDay>(_selectForecastDay);
   }
 
   final WeatherDetailsUseCase _weatherDetailsUseCase;
@@ -41,7 +42,6 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
         lat: 52.4633188,
         lon: 13.3405259,
       );
-      print(weatherDetails);
       emit(
         HomeScreenLoadedState(
           weatherDetails,
@@ -51,6 +51,22 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
       emit(
         HomeScreenErrorState(
           exception.toString(),
+        ),
+      );
+    }
+  }
+
+  void _selectForecastDay(
+    SelectForecastDay event,
+    Emitter<HomeScreenState> emit,
+  ) {
+    if (state is HomeScreenLoadedState) {
+      final HomeScreenLoadedState currentState = state as HomeScreenLoadedState;
+      emit(
+        currentState.copyWith(
+          weatherData: currentState.weatherData.copyWith(
+            current: event.weather,
+          ),
         ),
       );
     }

@@ -1,5 +1,7 @@
 import 'package:domain/entities/entities.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/blocs/home_screen/home_screen_bloc.dart';
 import 'package:weather_app/enums/enums.dart';
 import 'package:weather_app/utils.dart';
 
@@ -19,29 +21,49 @@ class BriefWeatherWidget extends StatelessWidget {
   String temperatureInCelsius() =>
       "${weather.tempMaxInCelsius}/${weather.tempMinInCelsius}";
 
+  String temperatureUnit() => Utils.getTemperatureUnitInText(unit);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: 2,
-          color: Colors.black,
+    return GestureDetector(
+      onTap: () =>
+          context.read<HomeScreenBloc>().add(SelectForecastDay(weather)),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.4,
+        height: MediaQuery.of(context).size.height * 0.18,
+        margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 2,
+            color: Colors.black,
+          ),
+          borderRadius: BorderRadius.circular(8),
         ),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        children: [
-          Text(
-            Utils.getAbbrOfDayOfTheWeek(weather.dateTime),
-          ),
-          Image.network("https://openweathermap.org/img/wn/10d@2x.png"),
-          Visibility(
-            visible: unit == TemperatureUnit.celsius,
-            replacement: Text(temperatureInFahrenheit()),
-            child: Text(temperatureInCelsius()),
-          ),
-        ],
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(Utils.getAbbrOfDayOfTheWeek(weather.dateTime)),
+            SizedBox(
+              width: 100,
+              height: 100,
+              child: Image.network(
+                weather.icon,
+                loadingBuilder: (_, child, progress) {
+                  if (progress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
+            ),
+            Visibility(
+              visible: unit == TemperatureUnit.celsius,
+              replacement: Text(temperatureInFahrenheit() + temperatureUnit()),
+              child: Text(temperatureInCelsius() + temperatureUnit()),
+            ),
+          ],
+        ),
       ),
     );
   }

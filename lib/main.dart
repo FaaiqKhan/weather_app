@@ -41,6 +41,7 @@ class MyHomePage extends StatelessWidget {
         ),
       )..add(GetForecastData()),
       child: Scaffold(
+        backgroundColor: Colors.white70,
         body: SafeArea(
           child: BlocBuilder<HomeScreenBloc, HomeScreenState>(
             builder: (context, state) {

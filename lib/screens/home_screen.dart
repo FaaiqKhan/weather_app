@@ -17,6 +17,80 @@ class HomeScreen extends StatelessWidget {
         : weather.tempInFahrenheit;
   }
 
+  Widget showDetailsWidget(Weather weather) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Humidity: ${weather.humidity}%",
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            "Pressure: ${weather.pressure} hPa",
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            "Wind: ${weather.windSpeed} km/h",
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget showTitleWidget(Weather weather) {
+    return Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 48.0),
+            child: Text(
+              Utils.getDayOfTheWeek(weather.dateTime),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 28,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+        TemperatureUnitMenu(),
+      ],
+    );
+  }
+
+  Widget showForecastWidget(List<Weather> forecast, TemperatureUnit unit) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: forecast
+            .map(
+              (forecast) => BriefWeatherWidget(
+                unit: unit,
+                weather: forecast,
+              ),
+            )
+            .toList(growable: false),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeScreenBloc, HomeScreenState>(
@@ -32,31 +106,12 @@ class HomeScreen extends StatelessWidget {
         final castedState = state as HomeScreenLoadedState;
         final weather = castedState.weatherData.current;
         return SingleChildScrollView(
+          padding: const EdgeInsets.only(bottom: 20),
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 48.0),
-                        child: Text(
-                          Utils.getDayOfTheWeek(
-                            castedState.weatherData.current.dateTime,
-                          ),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 28,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    TemperatureUnitMenu(),
-                  ],
-                ),
+                showTitleWidget(castedState.weatherData.current),
                 const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -73,9 +128,30 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Image.network(
-                        weather.icon,
-                        scale: 0.4,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        child: Image.network(
+                          weather.icon,
+                          fit: BoxFit.fitWidth,
+                          alignment: Alignment.center,
+                          loadingBuilder: (_, child, progress) {
+                            if (progress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                          errorBuilder: (_, __, ___) => Center(
+                            child: Text(
+                              "Image not found",
+                              style: TextStyle(
+                                fontSize: 22,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -100,54 +176,14 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Humidity: ${weather.humidity}%",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              "Pressure: ${weather.pressure} hPa",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              "Wind: ${weather.windSpeed} km/h",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
+                      showDetailsWidget(state.weatherData.current),
                     ],
                   ),
                 ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: castedState.weatherData.forecast
-                        .map(
-                          (forecast) => BriefWeatherWidget(
-                            weather: forecast,
-                            unit: state.unit,
-                          ),
-                        )
-                        .toList(growable: false),
-                  ),
+                const SizedBox(height: 20),
+                showForecastWidget(
+                  castedState.weatherData.forecast,
+                  state.unit,
                 ),
               ],
             ),
