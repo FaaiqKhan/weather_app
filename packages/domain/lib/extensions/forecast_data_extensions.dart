@@ -36,9 +36,9 @@ extension ForecastItemExtension on datasource.ForecastItem {
       tempMaxInFahrenheit: tempMaxInFahrenheit.toString(),
       tempMaxInCelsius:
           Utils.fahrenheitToCelsius(tempMaxInFahrenheit).toStringAsFixed(0),
-      pressure: weatherDetails?.pressure ?? 0,
-      humidity: weatherDetails?.humidity ?? 0,
-      windSpeed: (wind?.speed ?? 0.0).toString(),
+      pressure: "${weatherDetails?.pressure ?? 0} hPa",
+      humidity: "${weatherDetails?.humidity ?? 0}%",
+      windSpeed: "${wind?.speed ?? 0.0} km/h",
       description: weather?.first.description ?? "",
       dateTime: DateTime.fromMillisecondsSinceEpoch(dt! * 1000, isUtc: true),
     );

@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Humidity: ${weather.humidity}%",
+            "Humidity: ${weather.humidity}",
             style: TextStyle(
               fontSize: 18,
               color: Colors.black,
@@ -33,7 +33,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           Text(
-            "Pressure: ${weather.pressure} hPa",
+            "Pressure: ${weather.pressure}",
             style: TextStyle(
               fontSize: 18,
               color: Colors.black,
@@ -41,7 +41,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           Text(
-            "Wind: ${weather.windSpeed} km/h",
+            "Wind: ${weather.windSpeed}",
             style: TextStyle(
               fontSize: 18,
               color: Colors.black,

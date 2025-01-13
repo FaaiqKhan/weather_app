@@ -7,8 +7,8 @@ class Weather {
   final String tempMinInCelsius;
   final String tempMaxInFahrenheit;
   final String tempMaxInCelsius;
-  final int pressure;
-  final int humidity;
+  final String pressure;
+  final String humidity;
   final String windSpeed;
   final String description;
   final DateTime dateTime;
@@ -38,8 +38,8 @@ class Weather {
     String? tempMinInCelsius,
     String? tempMaxInFahrenheit,
     String? tempMaxInCelsius,
-    int? pressure,
-    int? humidity,
+    String? pressure,
+    String? humidity,
     String? windSpeed,
     String? description,
     DateTime? dateTime,
