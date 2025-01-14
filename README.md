@@ -6,6 +6,13 @@ The Weather App is a user-friendly mobile application designed to provide users 
 up-to-date weather information of a week. 
 This app is built with a focus on performance, responsiveness, and an intuitive user interface.
 
+## Run the Application
+* To run the application you have to create a [OpenWeather API key](https://openweathermap.org/forecast5) and add it into the dart compile-time environment.
+* Follow this link to add variable in dart [compile-time environment](https://dart.dev/libraries/core/environment-declarations).
+* Run flutter pub get - to install the required packages.
+* Connect your Android or iOS device, or use a simulator/emulator.
+* Run the app using the flutter run command.
+
 ## Features
 1. ### Loading Indicator
     * A loading indicator is displayed whenever the app fetches weather data, ensuring users know the ongoing process.
