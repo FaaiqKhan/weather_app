@@ -23,12 +23,26 @@ class MainScreen extends StatelessWidget {
           child: BlocBuilder<HomeScreenBloc, HomeScreenState>(
             builder: (context, state) {
               if (state is HomeScreenErrorState) {
-                return Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      context.read<HomeScreenBloc>().add(GetForecastData());
-                    },
-                    child: Text("Retry"),
+                return SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        state.errorMessage,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          context.read<HomeScreenBloc>().add(GetForecastData());
+                        },
+                        child: Text("Retry"),
+                      ),
+                    ],
                   ),
                 );
               }

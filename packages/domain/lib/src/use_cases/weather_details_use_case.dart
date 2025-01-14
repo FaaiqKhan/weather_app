@@ -37,7 +37,7 @@ class WeatherDetailsUseCase {
 
       return weatherData.copyWith(forecast: sortedForecast);
     } catch(exception) {
-      rethrow;
+      throw (exception as WeatherAppExceptions).message;
     }
   }
 }
