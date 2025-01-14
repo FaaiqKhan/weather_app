@@ -20,6 +20,7 @@ void main() {
   });
 
   group("BriefWeatherWidget", () {
+    // Mocking
     final Weather weather = Weather(
       id: 1,
       icon: "https://example.com/10nd@2x.png",
@@ -58,6 +59,7 @@ void main() {
           );
         });
 
+        // Assert
         expect(find.text("Wed"), findsOneWidget);
         expect(find.byType(Image), findsOneWidget);
         expect(find.text("4/-2°C"), findsOneWidget);
@@ -75,6 +77,7 @@ void main() {
           );
         });
 
+        // Assert
         expect(find.text("Wed"), findsOneWidget);
         expect(find.byType(Image), findsOneWidget);
         expect(find.text("40/28°F"), findsOneWidget);
@@ -96,6 +99,7 @@ void main() {
 
           // Simulate image loading
           final imageWidget = tester.widget<Image>(imageFinder);
+          // Mocking
           final loadingBuilder = imageWidget.loadingBuilder!;
           progressWidget = loadingBuilder(
             tester.element(imageFinder),
@@ -106,6 +110,7 @@ void main() {
           );
         });
 
+        // Assert
         expect(
           progressWidget,
           isA<Center>().having(
@@ -133,6 +138,7 @@ void main() {
             ),
           );
 
+          // Act
           await tester.tap(
             find.byType(GestureDetector),
           );
@@ -140,6 +146,7 @@ void main() {
           return await tester.pump();
         });
 
+        // Assert
         verify(
           mockBloc.add(
             SelectForecastDay(weather),
