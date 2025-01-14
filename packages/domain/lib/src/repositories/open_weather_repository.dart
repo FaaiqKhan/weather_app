@@ -15,24 +15,3 @@ abstract interface class OpenWeatherRepository {
     required double lon,
   });
 }
-
-class OpenWeatherRepositoryImpl implements OpenWeatherRepository {
-  final OpenWeatherRemoteDatasource datasource;
-
-  OpenWeatherRepositoryImpl(this.datasource);
-
-  @override
-  FutureOr<ForecastData> fetchWeatherDetails({
-    required double lat,
-    required double lon,
-  }) async {
-    try {
-      return await datasource.fetchWeatherDetails(
-        lat: lat,
-        lon: lon,
-      );
-    } catch (_) {
-      rethrow;
-    }
-  }
-}
