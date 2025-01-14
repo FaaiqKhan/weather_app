@@ -17,13 +17,17 @@ class WeatherDetailsUseCase {
         lon: lon,
       );
 
+      // Converting forecast data to weather data to remove hourly forecast data.
       final weatherData = forecastData.toWeatherData();
 
       final List<Weather> sortedForecast = [];
       sortedForecast.add(weatherData.current);
 
+      // The forecast data is sorted hourly in ascending order.
+      // Pick first value of forecast data stored in current variable.
       DateTime dateTime = weatherData.current.dateTime;
 
+      // Removing hourly forecast data
       for (var forecast in weatherData.forecast) {
         final forecastDateTime = forecast.dateTime;
         if (forecastDateTime.day == dateTime.day &&
@@ -35,8 +39,9 @@ class WeatherDetailsUseCase {
         dateTime = forecastDateTime;
       }
 
+      // Updating weather data with sorted forecast data.
       return weatherData.copyWith(forecast: sortedForecast);
-    } catch(exception) {
+    } catch (exception) {
       throw (exception as WeatherAppExceptions).message;
     }
   }
