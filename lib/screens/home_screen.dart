@@ -1,4 +1,4 @@
-import 'package:domain/entities/entities.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/blocs/home_screen/home_screen_bloc.dart';

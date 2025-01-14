@@ -1,7 +1,6 @@
 import 'dart:async';
 
-import 'package:data/data.dart';
-import 'package:data/datasource/remotes/open_weather_remote_datasource.dart';
+import 'package:datasource/datasource.dart';
 
 abstract interface class OpenWeatherRepository {
   factory OpenWeatherRepository({

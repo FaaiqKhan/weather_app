@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:domain/domain.dart';
-import 'package:domain/entities/entities.dart';
-
-import '../repositories/open_weather_repository.dart';
+import 'package:domain/src/entities/entities.dart';
+import 'package:domain/src/repositories/open_weather_repository.dart';
 
 class WeatherDetailsUseCase {
   final OpenWeatherRepository _openWeatherRepository;

@@ -1,9 +1,8 @@
 import 'dart:async';
 
-import 'package:data/datasource/remotes/open_weather_remote_datasource.dart';
-import 'package:domain/repositories/open_weather_repository.dart';
-
-import '../models/models.dart';
+import 'package:datasource/src/models/forecast_data.dart';
+import 'package:datasource/src/remotes/open_weather_remote_datasource.dart';
+import 'package:domain/domain.dart';
 
 class OpenWeatherRepositoryImpl implements OpenWeatherRepository {
   final OpenWeatherRemoteDatasource datasource;

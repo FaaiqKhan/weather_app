@@ -1,4 +1,4 @@
-import 'package:domain/entities/entities.dart';
+import 'package:domain/src/entities/entities.dart';
 
 class WeatherData {
   final City city;

@@ -1,6 +1,6 @@
-import 'package:data/data.dart' as datasource;
-import 'package:domain/entities/entities.dart';
-import 'package:domain/utils/utils.dart';
+import 'package:datasource/datasource.dart' as datasource;
+import 'package:domain/src/entities/entities.dart';
+import 'package:domain/src/utils/utils.dart';
 
 extension ForecastDataExtension on datasource.ForecastData {
   WeatherData toWeatherData() {

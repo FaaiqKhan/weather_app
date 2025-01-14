@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:domain/domain.dart';
-import 'package:domain/entities/entities.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:weather_app/enums/enums.dart';

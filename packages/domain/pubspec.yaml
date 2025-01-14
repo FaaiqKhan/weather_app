@@ -11,8 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  data:
-    path: ../data
+  datasource:
+    path: ../datasource
 
 dev_dependencies:
   flutter_test:

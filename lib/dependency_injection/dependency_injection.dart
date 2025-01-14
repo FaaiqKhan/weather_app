@@ -1,4 +1,4 @@
-import 'package:domain/repositories/open_weather_repository.dart';
+import 'package:domain/domain.dart';
 import 'package:get_it/get_it.dart';
 
 class DependencyInjection {

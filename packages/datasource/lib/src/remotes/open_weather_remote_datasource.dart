@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:data/datasource/models/models.dart';
+import 'package:datasource/src/models/models.dart';
 import 'package:dio/dio.dart';
 import 'package:domain/domain.dart';
 
