@@ -207,7 +207,7 @@ packages:
     source: hosted
     version: "3.0.1"
   datasource:
-    dependency: "direct main"
+    dependency: transitive
     description:
       path: "packages/datasource"
       relative: true

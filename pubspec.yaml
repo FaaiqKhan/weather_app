@@ -21,8 +21,6 @@ dependencies:
 
   domain:
     path: packages/domain
-  datasource:
-    path: packages/datasource
 
 dev_dependencies:
   flutter_test:
